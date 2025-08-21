@@ -1,0 +1,80 @@
+:root {
+	--bg: #0b0f17;
+	--panel: #0f1420;
+	--text: #e6f1ff;
+	--muted: #8aa0b6;
+	--accent: #10ffb4;
+	--accent-2: #7b61ff;
+	--shadow: 0 10px 30px rgba(16, 255, 180, 0.15);
+}
+
+html, body, #root { height: 100%; }
+body {
+	margin: 0;
+	background: var(--bg);
+	color: var(--text);
+	font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+}
+
+/* Animated neon mesh background and dot grid */
+body::before, body::after { content: ""; position: fixed; inset: 0; pointer-events: none; z-index: -1; }
+body::before {
+	background: radial-gradient(600px 400px at 15% 10%, rgba(123,97,255,0.35), transparent),
+		radial-gradient(800px 500px at 85% 0%, rgba(16,255,180,0.25), transparent),
+		radial-gradient(700px 600px at 50% 100%, rgba(91,211,255,0.18), transparent);
+	filter: blur(10px);
+	animation: float-bg 18s ease-in-out infinite alternate;
+}
+body::after {
+	background-image: radial-gradient(rgba(255,255,255,0.08) 1px, transparent 1px);
+	background-size: 22px 22px;
+	opacity: 0.25;
+	mix-blend-mode: overlay;
+}
+@keyframes float-bg {
+	0% { transform: translateY(0) scale(1); }
+	100% { transform: translateY(-20px) scale(1.04); }
+}
+
+.app { display: grid; grid-template-columns: 280px 1fr; height: 100%; }
+.sidebar { background: rgba(10,15,25,0.55); backdrop-filter: blur(10px); border-right: 1px solid rgba(255,255,255,0.06); padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+.brand { display: flex; gap: 8px; align-items: center; font-weight: 800; }
+.brand .dot { width: 10px; height: 10px; border-radius: 999px; background: linear-gradient(135deg, var(--accent), var(--accent-2)); box-shadow: 0 0 20px var(--accent); }
+
+.contacts { display: flex; flex-direction: column; gap: 8px; }
+.contact { padding: 10px 12px; background: rgba(255,255,255,0.03); border: 1px solid transparent; border-radius: 10px; cursor: pointer; }
+.contact.active { border-color: rgba(16,255,180,0.4); box-shadow: var(--shadow); }
+
+.chat { display: grid; grid-template-rows: auto 1fr auto; background: rgba(255,255,255,0.02); backdrop-filter: blur(6px); }
+.header { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+.header .title { font-weight: 900; letter-spacing: 0.3px; background: linear-gradient(90deg, var(--accent), var(--accent-2)); -webkit-background-clip: text; background-clip: text; color: transparent; filter: drop-shadow(0 0 10px rgba(16,255,180,0.15)); animation: shimmer 5s linear infinite; }
+@keyframes shimmer { 0% { background-position: 0% 50%; } 100% { background-position: 200% 50%; } }
+.messages { padding: 16px 20px 8px; overflow-y: auto; }
+.message { margin-bottom: 12px; }
+.bubble { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 10px 12px; border-radius: 14px; transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease; }
+.bubble.mine { border-color: rgba(16,255,180,0.5); box-shadow: var(--shadow); }
+.bubble:hover { transform: translateY(-1px); box-shadow: 0 6px 24px rgba(0,0,0,0.25); }
+.pop { animation: pop-in 320ms ease; }
+@keyframes pop-in { from { transform: translateY(4px) scale(0.98); opacity: 0; } to { transform: translateY(0) scale(1); opacity: 1; } }
+.meta { font-size: 12px; color: var(--muted); margin-bottom: 4px; }
+
+.composer { display: grid; grid-template-columns: 1fr auto; gap: 10px; padding: 10px 20px 16px; border-top: 1px solid rgba(255,255,255,0.06); }
+.composer textarea { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); color: var(--text); padding: 12px; border-radius: 12px; resize: none; min-height: 48px; max-height: 140px; }
+.composer button { background: linear-gradient(135deg, var(--accent), var(--accent-2)); border: none; color: #031415; font-weight: 800; padding: 12px 16px; border-radius: 12px; cursor: pointer; box-shadow: var(--shadow); }
+
+.hint { font-size: 12px; color: var(--muted); }
+
+/* Emoji */
+.toolbar { display: flex; align-items: center; gap: 8px; }
+.emoji-btn { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); color: var(--text); padding: 10px 12px; border-radius: 12px; cursor: pointer; }
+.emoji-popover { position: absolute; bottom: 74px; right: 24px; background: var(--panel); border: 1px solid rgba(255,255,255,0.12); border-radius: 12px; padding: 8px; display: grid; grid-template-columns: repeat(8, 28px); gap: 6px; box-shadow: var(--shadow); }
+.emoji { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); border-radius: 8px; width: 28px; height: 28px; display: grid; place-items: center; cursor: pointer; }
+
+/* Status */
+.status { font-size: 11px; color: var(--muted); margin-top: 4px; text-align: right; }
+
+/* Reactions */
+.reactions { display: flex; gap: 6px; margin-top: 6px; flex-wrap: wrap; }
+.react { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); color: var(--text); padding: 2px 8px; border-radius: 999px; cursor: pointer; font-size: 13px; }
+.react.active { background: rgba(16,255,180,0.2); border-color: rgba(16,255,180,0.5); }
+
